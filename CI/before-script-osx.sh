@@ -13,7 +13,7 @@ cmake \
   -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15 \
   -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl@1.1 \
   -Dlibwebrtc_DIR=/tmp/libWebRTC-79.0-x64-Rel-COMMUNITY-BETA/cmake \
-  -DBUILD_BROWSER=false \
+  -DBUILD_BROWSER=true \
   -DOBS_WEBRTC_VENDOR_NAME=Millicast \
   -DOBS_VERSION_OVERRIDE=23.2.0 \
   ..

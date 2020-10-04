@@ -44,15 +44,30 @@ install_name_tool -change /usr/local/opt/openssl@1.1/lib/libcrypto.1.1.dylib @ex
 # cp -r ../../sparkle/Sparkle.framework ./$APP_NAME.app/Contents/Frameworks/
 # install_name_tool -change @rpath/Sparkle.framework/Versions/A/Sparkle @executable_path/../Frameworks/Sparkle.framework/Versions/A/Sparkle ./$APP_NAME.app/Contents/MacOS/ebs
 
-# NOTE ALEX: enable CEF LATER
 # Copy Chromium embedded framework to app Frameworks directory
-# hr "Copying Chromium Embedded Framework.framework"
-# sudo mkdir -p $APP_NAME.app/Contents/Frameworks
-# sudo cp -r ../../cef_binary_${CEF_BUILD_VERSION}_macosx64/Release/Chromium\ Embedded\ Framework.framework $APP_NAME.app/Contents/Frameworks/
+hr "Copying Chromium Embedded Framework.framework"
+sudo mkdir -p $APP_NAME.app/Contents/Frameworks
+sudo cp -r ../../cef_binary_3.3282.1726.gc8368c8_macosx64/Release/Chromium\ Embedded\ Framework.framework $APP_NAME.app/Contents/Frameworks/
 
-# install_name_tool -change /usr/local/opt/qt/lib/QtGui.framework/Versions/5/QtGui         @executable_path/../Frameworks/QtGui.framework/Versions/5/QtGui         ./$APP_NAME.app/Contents/Plugins/obs-browser.so
-# install_name_tool -change /usr/local/opt/qt/lib/QtCore.framework/Versions/5/QtCore       @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore       ./$APP_NAME.app/Contents/Plugins/obs-browser.so
-# install_name_tool -change /usr/local/opt/qt/lib/QtWidgets.framework/Versions/5/QtWidgets @executable_path/../Frameworks/QtWidgets.framework/Versions/5/QtWidgets ./$APP_NAME.app/Contents/Plugins/obs-browser.so
+install_name_tool -change \
+  @rpath/Frameworks/Chromium\ Embedded\ Framework.framework/Chromium\ Embedded\ Framework \
+  @executable_path/../Frameworks/Chromium\ Embedded\ Framework.framework/Chromium\ Embedded\ Framework \
+  obs-browser-page
+
+install_name_tool -change \
+  /usr/local/opt/qt/lib/QtGui.framework/Versions/5/QtGui \
+  @executable_path/../Frameworks/QtGui.framework/Versions/5/QtGui \
+  ./$APP_NAME.app/Contents/Plugins/obs-browser.so
+
+install_name_tool -change \
+  /usr/local/opt/qt/lib/QtCore.framework/Versions/5/QtCore \
+  @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore \
+  ./$APP_NAME.app/Contents/Plugins/obs-browser.so
+
+install_name_tool -change \
+  /usr/local/opt/qt/lib/QtWidgets.framework/Versions/5/QtWidgets \
+  @executable_path/../Frameworks/QtWidgets.framework/Versions/5/QtWidgets \
+  ./$APP_NAME.app/Contents/Plugins/obs-browser.so
 
 # edit plist
 plutil -insert CFBundleVersion            -string $DEPLOY_VERSION ./$APP_NAME.app/Contents/Info.plist
